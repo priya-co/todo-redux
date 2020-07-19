@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { act } from 'react-dom/test-utils';
 
 const intialState = {
   todoLists: [{
@@ -29,8 +30,11 @@ const rootReducer = (state = intialState, action) => {
     case 'ADD-ITEM':  
       return Object.assign({}, state, {todoLists: [...state.todoLists, action.todoList]}) 
 
-    case 'INPUT_ITEM_CHANGE': 
-      return Object.assign({}, state, {inputItem:action.inputItem})
+    case 'CHECK-INPUT': 
+      const todoCopy = [...state.todoLists];
+      todoCopy[action.index].isChecked = action.isChecked;
+      return Object.assign({}, state, {todoLists: [...todoCopy] });
+
     default:
       return state;
   }  

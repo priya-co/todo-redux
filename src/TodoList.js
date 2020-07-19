@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 
@@ -6,9 +6,9 @@ const TodoList = (props) => {
     return(
         <div>
             {
-                props.todoLists.map((list) => (
-                    <div key={list.key} className='todo-list'>
-                        <input type='checkbox' checked={list.isChecked}/>
+                props.todoLists.map((list, index) => (
+                    <div key={list.index} className='todo-list'>
+                        <input onChange ={() => {props.onClickCheck(!list.isChecked, index)}} type='checkbox' checked={list.isChecked}/>
                         <div className="label">{list.label}</div>
                     </div>
                 ))
@@ -26,17 +26,15 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-         onAddItem:()=>{  
-            console.log('onAddItem - onButtonClick');  
-            const action={type:'ADD_INPUT'};  
-            dispatch(action);  
-          } ,
-          onInputChange:()=>{  
-            console.log('onInputChange');  
-            const action={type:'INPUT_ITEM_CHANGE'};  
+          onClickCheck: (isChecked, index) => {  
+            const action = {
+                type: 'CHECK-INPUT',
+                isChecked,
+                index   
+            }  
             dispatch(action);  
           } 
     }
 }
 
-export default connect(mapStateToProps, null)(TodoList);
+export default connect(mapStateToProps, mapDispatchToProps)(TodoList);
