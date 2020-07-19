@@ -9,19 +9,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { act } from 'react-dom/test-utils';
 
 const intialState = {
-  todoLists: [{
-    label: 'Buy milk',
-    isChecked: false,
-    index: 0
-  }, {
-    label: 'Buy a1 milk',
-    isChecked: true,
-    index: 0
-  }, {
-    label: 'Buy a2 milk',
-    isChecked: false,
-    index: 0
-  }]
+  todoLists: []
 }
 
 const rootReducer = (state = intialState, action) => {
@@ -34,6 +22,12 @@ const rootReducer = (state = intialState, action) => {
       const todoCopy = [...state.todoLists];
       todoCopy[action.index].isChecked = action.isChecked;
       return Object.assign({}, state, {todoLists: [...todoCopy] });
+
+    case 'REMOVE-ITEM':
+      const todo = [...state.todoLists];
+      todo.splice(action.index,1);
+      return Object.assign({}, state,{todoLists: [...todo] } );
+
 
     default:
       return state;

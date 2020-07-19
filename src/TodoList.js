@@ -7,9 +7,10 @@ const TodoList = (props) => {
         <div>
             {
                 props.todoLists.map((list, index) => (
-                    <div key={list.index} className='todo-list'>
+                    <div key={list.index} className={`todo-list ${list.isChecked ? 'checked' : ''}`}>
                         <input onChange ={() => {props.onClickCheck(!list.isChecked, index)}} type='checkbox' checked={list.isChecked}/>
                         <div className="label">{list.label}</div>
+                        <div className="cross" onClick={() => props.onCross(index)}>x</div>
                     </div>
                 ))
             }
@@ -30,6 +31,13 @@ const mapDispatchToProps = (dispatch) => {
             const action = {
                 type: 'CHECK-INPUT',
                 isChecked,
+                index   
+            }  
+            dispatch(action);  
+          },
+          onCross: (index) => {  
+            const action = {
+                type: 'REMOVE-ITEM',
                 index   
             }  
             dispatch(action);  
