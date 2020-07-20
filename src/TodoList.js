@@ -1,8 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 
 const TodoList = (props) => {
+    const logToLocalStorage = function (e) {        
+        localStorage.setItem(`todoLists`, JSON.stringify(props.todoLists));
+    }
+    useEffect(() => {
+        window.addEventListener("beforeunload", logToLocalStorage);
+
+        return () => {
+            window.removeEventListener("beforeunload", logToLocalStorage);
+        }
+    });
     return(
         <div>
             {
